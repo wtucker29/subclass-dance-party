@@ -1,34 +1,34 @@
-describe('blinkyDancer', function() {
+describe('cartoonDancer', function() {
 
-  var blinky, clock;
+  var cartoon, clock;
   var timeBetweenSteps = 100;
 
   beforeEach(function() {
     clock = sinon.useFakeTimers();
-    blinky = new BlinkyDancer(10, 20, timeBetweenSteps);
+    cartoon = new CartoonDancer(10, 20, timeBetweenSteps);
   });
 
   it('should have a jQuery $node object', function() {
-    expect(blinky.$node).to.be.an.instanceof(jQuery);
+    expect(cartoon.$node).to.be.an.instanceof(jQuery);
   });
 
   it('should have a step function that makes its node blink', function() {
-    sinon.spy(blinky.$node, 'toggle');
-    blinky.step();
-    expect(blinky.$node.toggle.called).to.be.true;
+    sinon.spy(cartoon.$node, 'toggle');
+    cartoon.step();
+    expect(cartoon.$node.toggle.called).to.be.true;
   });
 
   describe('dance', function() {
     it('should call step at least once per second', function() {
-      sinon.spy(blinky, 'step');
-      expect(blinky.step.callCount).to.be.equal(0);
+      sinon.spy(cartoon, 'step');
+      expect(cartoon.step.callCount).to.be.equal(0);
       clock.tick(timeBetweenSteps); // ? it seems an extra tick is necessary...
       clock.tick(timeBetweenSteps);
 
-      expect(blinky.step.callCount).to.be.equal(1);
+      expect(cartoon.step.callCount).to.be.equal(1);
 
       clock.tick(timeBetweenSteps);
-      expect(blinky.step.callCount).to.be.equal(2);
+      expect(cartoon.step.callCount).to.be.equal(2);
     });
   });
 });
