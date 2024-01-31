@@ -28,6 +28,7 @@ $(document).ready(function() {
       Math.random() * 1000
     );
     $('body').append(dancer.$node);
+    window.dancers.push(dancer);
   });
 
   $('.cartoonButton').on('click', function(event) {
@@ -46,6 +47,7 @@ $(document).ready(function() {
     );
     $('body').append(dancer.$node);
     //$('cartoon').addClass('spin');
+    window.dancers.push(dancer);
   });
 
   $('.sportButton').on('click', function(event) {
@@ -63,20 +65,36 @@ $(document).ready(function() {
       Math.random() * 1000
     );
     $('body').append(dancer.$node);
+    window.dancers.push(dancer);
   });
 
 
-  $('.LineUp').on('click', function(event) {
+  $('.lineUpButton').on('click', function(event) {
     window.dancers.forEach(function(dancer) {
       if (dancer instanceof CartoonDancer) {
         dancer.lineUp();
+      } else if (dancer instanceof SportDancer) {
+        dancer.lineUp();
+      } else if (dancer instanceof BlinkyDancer) {
+        dancer.lineUp();
       }
     });
-    // dancer.$node.lineUp();
-    // for (var i = 0; i < windows.dancers.length; i++) {
-    // windows.dancers[i].lineUp();
-    // };
   });
 
+
+
+
+  $('.danceOffButton').on('click', function(event) {
+    window.dancers.forEach(function(dancer) {
+      dancer.danceOff();
+    });
+  });
+
+  // // Dancer.prototype.reactToMouse = function() {
+  // //   console.log('Mouseover event');
+  // //   this.$node.css({
+  // //     transform: 'scale(1.5)'
+  // //   });
+  // };
 });
 

@@ -1,6 +1,7 @@
 body, html{
   height:100%;
-  background: url("club.jpg") no-repeat center center fixed;
+  width: 100%;
+  background: url("club.jpg") no-repeat center top fixed;
   background-size: cover;
 }
 body{
@@ -10,29 +11,71 @@ body{
 body, a:link, a:visited, a:active{
   color: lightblue;
 }
-.title, .blinkerButton, .cartoonButton, .sportButton, .LineUp{
-  padding:5px 12px;
-  float:right;
+.title{
+  float: left;
+  background-color: teal;
+  background-image: linear-gradient(to bottom right, #fcd34d, #44cdef, #ec4899);
+  border: 0;
+  border-radius: .25rem;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-size: 1.125rem; /* 18px */
+  font-weight: 600;
+  line-height: 1.75rem; /* 28px */
+  padding: 5px 12px;
+  text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
 }
 .topbar{
   height:32px;
-  background-color: #555;
-}
-.title{
-  background-color: #777;
+  text-align: center;
 }
 .dancer{
-  border:10px solid red;
+  border:10px solid yellow;
   border-radius:10px;
   position:absolute;
 }
+
+.dancer:hover {
+  border-color: teal;
+}
+
 .cartoon{
-  position: relative;
-  width: 100px;
-  height: 100px;
+  position: absolute;
+  width: 150px;
+  height: 150px;
 }
 .sport{
-  position: relative;
-  width: 100px;
-  height: 100px;
+  position: absolute;
+  width: 150px;
+  height: 150px;
 }
+
+/* CSS */
+.blinkerButton, .cartoonButton, .sportButton, .lineUpButton, .danceOffButton {
+  background-color: #cf245f;
+  background-image: linear-gradient(to bottom right, #fcd34d, #ef4444, #ec4899);
+  border: 0;
+  border-radius: .25rem;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-size: 1.125rem; /* 18px */
+  font-weight: 600;
+  line-height: 1.75rem; /* 28px */
+  padding: 5px 12px;
+  text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.blinkerButton:hover, .cartoonButton:hover, .sportButton:hover, .lineUpButton:hover, .danceOffButton:hover {
+  box-shadow: 10px 5px 5px teal;
+}
+

@@ -2,7 +2,8 @@ var Dancer = function(top, left, timeBetweenSteps) {
   this.$node = $('<span class="dancer"></span>');
   this.timeBetweenSteps = timeBetweenSteps;
   this.step();
-  //this.setPosition(top, left);
+  //this.bindMouse();
+  this.$node.on('mouseover', this.reactToMouse.bind(this));
 };
 
 Dancer.prototype.step = function() {
@@ -17,39 +18,79 @@ Dancer.prototype.setPosition = function(top, left) {
   this.$node.css(styleSettings);
 };
 
+Dancer.prototype.danceOff = function() {
+  // Iterate through each dancer
+  window.dancers.forEach(function(dancer) {
+    // Find closest neighbors
+    var closest = dancer.closestNeighbors(dancer, window.dancers, 2);
+    // Group together and do something
+    dancer.groupTogether(closest);
+  });
+};
 
+Dancer.prototype.findDistance = function(dancer1, dancer2) {
+  // Set positions for the two dancers
+  var x1 = dancer1.$node.position().left;
+  var y1 = dancer1.$node.position().top;
+  var x2 = dancer2.$node.position().left;
+  var y2 = dancer2.$node.position().top;
 
+  // Use pythagorean theorem to find distance between two objects
+  var distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+  return distance;
+};
 
+Dancer.prototype.closestNeighbors = function(dancer, allDancers, n) {
+  // Create empty distances array
+  var distances = [];
+  // Iterate through the window.dancers global storage array
+  allDancers.forEach(function(otherDancer) {
+    // Run findDistance function
+    var distance = otherDancer.findDistance(dancer, otherDancer);
+    // Push distance object into array
+    distances.push({ dancer: otherDancer, distanceBetween: distance });
+  });
 
-// // Creates and returns a new dancer object that can step
-// var makeDancer = function(top, left, timeBetweenSteps) {
+  // Sort distances by closest values
+  distances.sort(function(a, b) {
+    return a.distanceBetween - b.distanceBetween;
+  });
 
-//   var dancer = {};
+  // Set what the closest neighbor is
+  var closestNeighbors = distances.slice(0, n).map(function(item) {
+    return item.dancer;
+  });
 
-//   // use jQuery to create an HTML <span> tag
-//   dancer.$node = $('<span class="dancer"></span>');
+  return closestNeighbors;
+};
 
-//   dancer.step = function() {
-//     // the basic dancer doesn't do anything interesting at all on each step,
-//     // it just schedules the next step
-//     setTimeout(dancer.step, timeBetweenSteps);
-//   };
-//   dancer.step();
+Dancer.prototype.groupTogether = function(neighbors) {
+  // Set average positions
+  var averagePosition = {
+    top: 0,
+    left: 0
+  };
+  // Iterate through the closest neighbors
+  neighbors.forEach(function(neighbor) {
+    // update average position values
+    averagePosition.top += neighbor.$node.position().top;
+    averagePosition.left += neighbor.$node.position().left;
+  });
 
-//   dancer.setPosition = function(top, left) {
-//     // Use css top and left properties to position our <span> tag
-//     // where it belongs on the page. See http://api.jquery.com/css/
-//     //
-//     var styleSettings = {
-//       top: top,
-//       left: left
-//     };
-//     dancer.$node.css(styleSettings);
-//   };
+  // Divide by length of input for true average
+  averagePosition.top /= neighbors.length;
+  averagePosition.left /= neighbors.length;
 
-//   // now that we have defined the dancer object, we can start setting up important parts of it by calling the methods we wrote
-//   // this one sets the position to some random default point within the body
-//   dancer.setPosition(top, left);
+  // Iterate through each neighbor to then run moveTo function
+  neighbors.forEach(function(neighbor) {
+    neighbor.moveTo(averagePosition);
+  });
+};
 
-//   return dancer;
-// };
+Dancer.prototype.moveTo = function(position) {
+  // Animate movement with JQuery
+  this.$node.animate({
+    top: position.top,
+    left: position.left
+  }, 500);
+};
