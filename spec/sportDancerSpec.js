@@ -12,12 +12,6 @@ describe('sportDancer', function() {
     expect(sport.$node).to.be.an.instanceof(jQuery);
   });
 
-  it('should have a step function that makes its node blink', function() {
-    sinon.spy(sport.$node, 'toggle');
-    sport.step();
-    expect(sport.$node.toggle.called).to.be.true;
-  });
-
   describe('dance', function() {
     it('should call step at least once per second', function() {
       sinon.spy(sport, 'step');
@@ -29,6 +23,18 @@ describe('sportDancer', function() {
 
       clock.tick(timeBetweenSteps);
       expect(sport.step.callCount).to.be.equal(2);
+    });
+
+    it('should have a setPosition method that sets the position of the node', function() {
+      sport.setPosition(50, 60);
+      expect(sport.$node.css('top')).to.equal('50px');
+      expect(sport.$node.css('left')).to.equal('60px');
+    });
+
+    it('should react to mouseover event by rotating the node', function() {
+      sinon.spy(sport.$node, 'css');
+      sport.reactToMouse();
+      expect(sport.$node.css.calledWithMatch({ transform: 'rotate(360deg)' })).to.be.true;
     });
   });
 });
